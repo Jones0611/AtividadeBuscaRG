@@ -1,16 +1,20 @@
-#Use the official Node.js image as the base image 
+# Usa a imagem oficial do Node.js como base
 FROM node:18
 
-# Set the working directory in the container 
-WORKDIR /main   
+# Define o diretório de trabalho no container
+WORKDIR /main
 
-EXPOSE 3000
+# Copia apenas os arquivos de dependência primeiro
+COPY package*.json ./
 
-# Copy the application files into the working directory 
-COPY . /main
-
-# Install the application dependencies   
+# Instala as dependências
 RUN npm install
 
-# Define the entry point for the container 
+# Copia o restante dos arquivos do projeto
+COPY . .
+
+# Expõe a porta usada pela aplicação
+EXPOSE 3000
+
+# Comando padrão para iniciar o servidor
 CMD ["npm", "start"]
